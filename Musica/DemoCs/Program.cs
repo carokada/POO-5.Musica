@@ -1,0 +1,200 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using EntidadesCs;
+
+namespace DemoCs
+{
+   class Program
+   {
+      static void Main(string[] args)
+      {
+         string divisor = "----------------------------------------------------------";
+
+         Console.WriteLine(divisor);
+         Console.WriteLine(" creando interpretes...");
+         Interprete artista1 = new Interprete("Sabrina Carpenter");
+         Interprete artista2 = new Interprete("Chappell Roan");
+         Interprete artista3 = new Interprete("Billie Eilish");
+         try
+         {
+            Interprete artista4 = new Interprete("");
+         }
+         catch (Exception e)
+         {
+            Console.WriteLine($" !! error : {e.Message}");
+         }
+         Console.WriteLine("\n mostrando interpretes cargados: ");
+         Console.WriteLine(artista1);
+         Console.WriteLine(artista2);
+         Console.WriteLine(artista3);
+
+         Console.WriteLine("\n " + divisor);
+         Console.WriteLine(" creando albums...");
+         Album album1 = new Album("Short 'n Sweet", new DateTime(2024, 8, 23));
+         Album album2 = new Album("The Rise and Fall of a Midwest Princess", new DateTime(2023, 9, 22));
+         Album album3 = new Album("Hit Me Hard and Soft", new DateTime(2024, 5, 17));
+         Console.WriteLine("\n mostrando albums cargados: ");
+         Console.WriteLine(album1);
+         Console.WriteLine(album2);
+         Console.WriteLine(album3);
+
+         Console.WriteLine("\n " + divisor);
+         Console.WriteLine(" creando canciones...");
+         Cancion cancion1 = new Cancion("Please please please", artista1, album1, 186);
+         Cancion cancion2 = new Cancion("Espresso", artista1, album1, 175);
+         Cancion cancion3 = new Cancion("Femininomenon", artista2, album2, 219);
+         Cancion cancion4 = new Cancion("HOT TO GO", artista2, album2, 184);
+         Cancion cancion5 = new Cancion("WILDFLOWER", artista3, album3, 261);
+         Cancion cancion6 = new Cancion("BLUE", artista3, album3, 343);
+         try
+         {
+            Cancion cancion7 = new Cancion("!!!!!!!!", null, album3, 13);
+         }
+         catch (Exception e)
+         {
+            Console.WriteLine($" !! error : {e.Message}");
+         }
+         try
+         {
+            Cancion cancion7 = new Cancion("!!!!!!!!", artista3, null, 13); // estas dos suben la cancion en el interprete igual
+         }
+         catch (Exception e)
+         {
+            Console.WriteLine($" !! error : {e.Message}");
+         }
+         try
+         {
+            Cancion cancion7 = new Cancion("!!!!!!!!", artista3, album3, 9); // estas dos suben la cancion en el interprete igual
+         }
+         catch (Exception e)
+         {
+            Console.WriteLine($" !! error : {e.Message}");
+         }
+         Console.WriteLine("\n mostrando canciones cargadas: ");
+         Console.WriteLine(cancion1);
+         Console.WriteLine(cancion2);
+         Console.WriteLine(cancion3);
+         Console.WriteLine(cancion4);
+         Console.WriteLine(cancion5);
+         Console.WriteLine(cancion6);
+
+         Console.WriteLine("\n " + divisor);
+         Console.WriteLine(" resumen de contenidos subidos:");
+         Console.WriteLine(" por interprete");
+         MostrarAlbums(artista1); // albums del artista no se suben, desde donde se maneja ?
+         MostrarAlbums(artista2);
+         MostrarAlbums(artista3);
+         MostrarCancionesPorInterprete(artista1);
+         MostrarCancionesPorInterprete(artista2);
+         MostrarCancionesPorInterprete(artista3); // 2 canciones de mas q son las q tiran excepciones
+         Console.WriteLine("\n por album");
+         MostrarCancionesPorAlbum(album1);
+         MostrarCancionesPorAlbum(album2);
+         MostrarCancionesPorAlbum(album3);
+
+         Console.WriteLine("\n " + divisor);
+         Console.WriteLine(" creando usuarios...");
+         Usuario user1 = new Usuario("Jazmin", "jazmin@gmail.com");
+         Usuario user2 = new Usuario("Ramiro", "ramiro@gmail.com");
+         Usuario user3 = new Usuario("Alexis", "alexis@gmail.com");
+         try
+         {
+            Usuario user4 = new Usuario("Al", "alejo@gmail.com");
+         }
+         catch (Exception e)
+         {
+            Console.WriteLine($" !! error : {e.Message}");
+         }
+         Console.WriteLine("\n mostrando usuarios cargados: ");
+         Console.WriteLine(user1);
+         Console.WriteLine(user2);
+         Console.WriteLine(user3);
+
+         Console.WriteLine("\n " + divisor);
+         Console.WriteLine(" creando bibliotecas...");
+         Biblioteca favs1 = new Biblioteca();
+         Biblioteca favs2 = new Biblioteca();
+         Biblioteca favs3 = new Biblioteca();
+         user1.Biblioteca = favs1;
+         user2.Biblioteca = favs2;
+         user3.Biblioteca = favs3;
+
+         Console.WriteLine("\n " + divisor);
+         Console.WriteLine(" mostrando contenidoService...");
+         MostrarContenidoService();
+         Console.WriteLine("\n busqueda de contenidos...");
+         Contenido busqueda1 = ContenidoService.BuscarPorNombre("Sabrina Carpenter");
+         favs1.AgregarFavorito(busqueda1);
+         Contenido busqueda2 = ContenidoService.BuscarPorNombre("Hit Me Hard and Soft");
+         favs1.AgregarFavorito(busqueda2);
+         favs2.AgregarFavorito(busqueda2);
+         Contenido busqueda3 = ContenidoService.BuscarPorNombre("Femininomenon");
+         favs1.AgregarFavorito(busqueda3);
+         favs2.AgregarFavorito(busqueda3);
+         favs3.AgregarFavorito(busqueda3);
+         try
+         {
+            Contenido busqueda4 = ContenidoService.BuscarPorNombre("brat");
+         }
+         catch (Exception e)
+         {
+            Console.WriteLine($" !! error : {e.Message}");
+         }
+
+         Console.WriteLine("\n " + divisor);
+         Console.WriteLine(" mostrando bibliotecas:");
+         MostrarBibliotecaPorUsuario(user1);
+         MostrarBibliotecaPorUsuario(user2);
+         MostrarBibliotecaPorUsuario(user3);
+
+         //Console.WriteLine("");
+         //Console.WriteLine();
+         Console.WriteLine(divisor);
+         Console.WriteLine("\n presione una tecla para salir ");
+         Console.ReadKey();
+      }
+
+      private static void MostrarContenidoService()
+      {
+         Console.WriteLine($" contenidos en ContenidoService");
+         foreach (var contenido in ContenidoService.GetContenidos())
+            Console.WriteLine($" - {contenido}");
+         Console.WriteLine();
+      }
+
+      private static void MostrarBibliotecaPorUsuario(Usuario usuario)
+      {
+         Console.WriteLine($" contenidos en biblioteca de usuario {usuario.Nombre}");
+         foreach (var contenido in usuario.Biblioteca.ObtenerFavoritos())
+            Console.WriteLine($" - {contenido}");
+         Console.WriteLine();
+      }
+
+      private static void MostrarAlbums(Interprete artista)
+      {
+         Console.WriteLine($" albums de artista {artista.Nombre}");
+         foreach (var album in artista.ObtenerAlbums())
+            Console.WriteLine($" - {album}");
+         Console.WriteLine();
+      }
+
+      private static void MostrarCancionesPorInterprete(Interprete artista)
+      {
+         Console.WriteLine($" canciones de artista {artista.Nombre}");
+         foreach (var cancion in artista.ObtenerCanciones())
+            Console.WriteLine($" - {cancion}");
+         Console.WriteLine();
+      }
+
+      private static void MostrarCancionesPorAlbum(Album album)
+      {
+         Console.WriteLine($" canciones de album {album.Nombre}");
+         foreach (var cancion in album.ObtenerCanciones())
+            Console.WriteLine($" - {cancion}");
+         Console.WriteLine();
+      }
+   }
+}
