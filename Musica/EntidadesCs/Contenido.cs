@@ -9,8 +9,6 @@ namespace EntidadesCs
       protected Contenido(string nombre)
       {
          Nombre = nombre;
-
-         //ContenidoService.AgregarContenido(this); // aca o en cada contenido ??
       }
 
       public string Nombre

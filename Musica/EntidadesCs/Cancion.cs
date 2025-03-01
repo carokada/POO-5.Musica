@@ -9,26 +9,43 @@ namespace EntidadesCs
       // ITemporizable
       private int duracion;
 
-      private Interprete artista; // asoc simple bidireccional 1 cancion tiene 1 interprete
+      private Interprete interprete; // asoc simple bidireccional 1 cancion tiene 1 interprete
       private Album album; // asoc simple bidireccional 1 cancion tiene 1 album
 
-      public Cancion (string nombre, Interprete artista, Album album, int duracion) : base(nombre)
+      public Cancion(string nombre, Interprete interprete, Album album, int duracion) : base(nombre)
       {
-         Artista = artista;
-         Album = album;
-         Duracion = duracion;
+         // try/catch para que no cree instancias de mas al generar canciones por medio de las asoc con album, artista y duracion si alguno es nulo
+         Interprete = interprete;
+         try
+         {
+            Album = album;
+         }
+         catch
+         {
+            Interprete.QuitarCancion(this);
+            throw; // el throw solo cancela la creacion del objeto si el album no se valida y quita la cancion del nombre del artista. idem duracion.
+         }
+         try
+         {
+            Duracion = duracion;
+         }
+         catch
+         {
+            Interprete.QuitarCancion(this);
+            Album.QuitarCancion(this);
+            throw;
+         }
 
-         ContenidoService.AgregarContenido(this);
+         ContenidoService.AgregarContenido(this); // agrega a clase utilitaria
       }
 
-      public Interprete Artista
+      public Interprete Interprete
       {
-         get => artista;
+         get => interprete;
          set
          {
-            artista = value ?? throw new ArgumentException(" el artista no puede ser nulo.");
-            // if album != null se agregaria la cancion al artista pero si verifico album entonces nunca agrega cancion a artista
-            artista.AgregarCancion(this); // referencia a interprete: al agregar los dos en la misma clase, cuando el artista no es nulo pero el album si se sube igual la cancion al artista. como evitar ?
+            interprete = value ?? throw new ArgumentException(" el artista no puede ser nulo.");
+            interprete.AgregarCancion(this); // referencia a interprete
          }
       }
 
@@ -50,7 +67,7 @@ namespace EntidadesCs
 
       public override string ToString()
       {
-         return $" cancion: {Nombre}";
+         return $" cancion: {Nombre} ({Duracion} segundos)";
       }
    }
 }

@@ -19,7 +19,7 @@ namespace EntidadesCs
 
          FechaLanzamiento = fechaLanzamiento;
 
-         ContenidoService.AgregarContenido(this);
+         ContenidoService.AgregarContenido(this); // agrega a la clase utilitaria
       }
 
       internal void AgregarCancion(Cancion cancion)
@@ -36,6 +36,15 @@ namespace EntidadesCs
          return canciones;
       }
 
+      internal void QuitarCancion(Cancion cancion)
+      {
+         if (cancion == null)
+            throw new ArgumentException(" la cancion no puede estar vacia.");
+         if (!canciones.Contains(cancion))
+            throw new ArgumentException($" la cancion {cancion} no ha sido agregada al interprete.");
+         canciones.Remove(cancion);
+      }
+
       public int CalcularDuracionAlbum()
       {
          int duracionAlbum = 0;
@@ -46,7 +55,7 @@ namespace EntidadesCs
 
       public override string ToString()
       {
-         return $" album: {Nombre}";
+         return $" album: {Nombre} ({Duracion} segundos)";
       }
    }
 }

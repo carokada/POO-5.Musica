@@ -15,27 +15,31 @@ namespace DemoCs
 
          Console.WriteLine(divisor);
          Console.WriteLine(" creando interpretes...");
-         Interprete artista1 = new Interprete("Sabrina Carpenter");
-         Interprete artista2 = new Interprete("Chappell Roan");
-         Interprete artista3 = new Interprete("Billie Eilish");
+         Interprete interptete1 = new Interprete("Sabrina Carpenter");
+         Interprete interprete2 = new Interprete("Chappell Roan");
+         Interprete interprete3 = new Interprete("Billie Eilish");
          try
          {
-            Interprete artista4 = new Interprete("");
+            Interprete interprete4 = new Interprete("");
          }
          catch (Exception e)
          {
             Console.WriteLine($" !! error : {e.Message}");
          }
          Console.WriteLine("\n mostrando interpretes cargados: ");
-         Console.WriteLine(artista1);
-         Console.WriteLine(artista2);
-         Console.WriteLine(artista3);
+         Console.WriteLine(interptete1);
+         Console.WriteLine(interprete2);
+         Console.WriteLine(interprete3);
 
          Console.WriteLine("\n " + divisor);
          Console.WriteLine(" creando albums...");
          Album album1 = new Album("Short 'n Sweet", new DateTime(2024, 8, 23));
          Album album2 = new Album("The Rise and Fall of a Midwest Princess", new DateTime(2023, 9, 22));
          Album album3 = new Album("Hit Me Hard and Soft", new DateTime(2024, 5, 17));
+         Console.WriteLine(" asignando albums a interpretes... ");
+         interptete1.AgregarAlbum(album1);
+         interprete2.AgregarAlbum(album2);
+         interprete3.AgregarAlbum(album3);
          Console.WriteLine("\n mostrando albums cargados: ");
          Console.WriteLine(album1);
          Console.WriteLine(album2);
@@ -43,12 +47,12 @@ namespace DemoCs
 
          Console.WriteLine("\n " + divisor);
          Console.WriteLine(" creando canciones...");
-         Cancion cancion1 = new Cancion("Please please please", artista1, album1, 186);
-         Cancion cancion2 = new Cancion("Espresso", artista1, album1, 175);
-         Cancion cancion3 = new Cancion("Femininomenon", artista2, album2, 219);
-         Cancion cancion4 = new Cancion("HOT TO GO", artista2, album2, 184);
-         Cancion cancion5 = new Cancion("WILDFLOWER", artista3, album3, 261);
-         Cancion cancion6 = new Cancion("BLUE", artista3, album3, 343);
+         Cancion cancion1 = new Cancion("Please please please", interptete1, album1, 186);
+         Cancion cancion2 = new Cancion("Espresso", interptete1, album1, 175);
+         Cancion cancion3 = new Cancion("Femininomenon", interprete2, album2, 219);
+         Cancion cancion4 = new Cancion("HOT TO GO", interprete2, album2, 184);
+         Cancion cancion5 = new Cancion("WILDFLOWER", interprete3, album3, 261);
+         Cancion cancion6 = new Cancion("BLUE", interprete3, album3, 343);
          try
          {
             Cancion cancion7 = new Cancion("!!!!!!!!", null, album3, 13);
@@ -59,7 +63,7 @@ namespace DemoCs
          }
          try
          {
-            Cancion cancion7 = new Cancion("!!!!!!!!", artista3, null, 13); // estas dos suben la cancion en el interprete igual
+            Cancion cancion7 = new Cancion("!!!!!!!!", interprete3, null, 13);
          }
          catch (Exception e)
          {
@@ -67,7 +71,7 @@ namespace DemoCs
          }
          try
          {
-            Cancion cancion7 = new Cancion("!!!!!!!!", artista3, album3, 9); // estas dos suben la cancion en el interprete igual
+            Cancion cancion7 = new Cancion("!!!!!!!!", interprete3, album3, 9);
          }
          catch (Exception e)
          {
@@ -83,19 +87,21 @@ namespace DemoCs
 
          Console.WriteLine("\n " + divisor);
          Console.WriteLine(" resumen de contenidos subidos:");
-         Console.WriteLine(" por interprete");
-         MostrarAlbums(artista1); // albums del artista no se suben, desde donde se maneja ?
-         MostrarAlbums(artista2);
-         MostrarAlbums(artista3);
-         MostrarCancionesPorInterprete(artista1);
-         MostrarCancionesPorInterprete(artista2);
-         MostrarCancionesPorInterprete(artista3); // 2 canciones de mas q son las q tiran excepciones
-         Console.WriteLine("\n por album");
+         Console.WriteLine("\n -> por interprete");
+         Console.WriteLine("\t -> albums: ");
+         MostrarAlbums(interptete1);
+         MostrarAlbums(interprete2);
+         MostrarAlbums(interprete3);
+         Console.WriteLine("\t -> canciones: ");
+         MostrarCancionesPorInterprete(interptete1);
+         MostrarCancionesPorInterprete(interprete2);
+         MostrarCancionesPorInterprete(interprete3);
+         Console.WriteLine("\n -> por album");
          MostrarCancionesPorAlbum(album1);
          MostrarCancionesPorAlbum(album2);
          MostrarCancionesPorAlbum(album3);
 
-         Console.WriteLine("\n " + divisor);
+         Console.WriteLine(divisor);
          Console.WriteLine(" creando usuarios...");
          Usuario user1 = new Usuario("Jazmin", "jazmin@gmail.com");
          Usuario user2 = new Usuario("Ramiro", "ramiro@gmail.com");
@@ -114,27 +120,19 @@ namespace DemoCs
          Console.WriteLine(user3);
 
          Console.WriteLine("\n " + divisor);
-         Console.WriteLine(" creando bibliotecas...");
-         Biblioteca favs1 = new Biblioteca();
-         Biblioteca favs2 = new Biblioteca();
-         Biblioteca favs3 = new Biblioteca();
-         user1.Biblioteca = favs1;
-         user2.Biblioteca = favs2;
-         user3.Biblioteca = favs3;
-
-         Console.WriteLine("\n " + divisor);
          Console.WriteLine(" mostrando contenidoService...");
          MostrarContenidoService();
-         Console.WriteLine("\n busqueda de contenidos...");
+
+         Console.WriteLine("\n buscando contenidos y agregando a bibliotecas...");
          Contenido busqueda1 = ContenidoService.BuscarPorNombre("Sabrina Carpenter");
-         favs1.AgregarFavorito(busqueda1);
+         user1.Biblioteca.AgregarFavorito(busqueda1);
          Contenido busqueda2 = ContenidoService.BuscarPorNombre("Hit Me Hard and Soft");
-         favs1.AgregarFavorito(busqueda2);
-         favs2.AgregarFavorito(busqueda2);
+         user1.Biblioteca.AgregarFavorito(busqueda2);
+         user2.Biblioteca.AgregarFavorito(busqueda2);
          Contenido busqueda3 = ContenidoService.BuscarPorNombre("Femininomenon");
-         favs1.AgregarFavorito(busqueda3);
-         favs2.AgregarFavorito(busqueda3);
-         favs3.AgregarFavorito(busqueda3);
+         user1.Biblioteca.AgregarFavorito(busqueda3);
+         user2.Biblioteca.AgregarFavorito(busqueda3);
+         user3.Biblioteca.AgregarFavorito(busqueda3);
          try
          {
             Contenido busqueda4 = ContenidoService.BuscarPorNombre("brat");
@@ -145,7 +143,7 @@ namespace DemoCs
          }
 
          Console.WriteLine("\n " + divisor);
-         Console.WriteLine(" mostrando bibliotecas:");
+         Console.WriteLine(" mostrando bibliotecas: \n");
          MostrarBibliotecaPorUsuario(user1);
          MostrarBibliotecaPorUsuario(user2);
          MostrarBibliotecaPorUsuario(user3);
@@ -159,17 +157,17 @@ namespace DemoCs
 
       private static void MostrarContenidoService()
       {
-         Console.WriteLine($" contenidos en ContenidoService");
+         Console.WriteLine("\n -> contenidos en ContenidoService");
          foreach (var contenido in ContenidoService.GetContenidos())
-            Console.WriteLine($" - {contenido}");
-         Console.WriteLine();
+            Console.WriteLine($"\t - {contenido}");
       }
 
       private static void MostrarBibliotecaPorUsuario(Usuario usuario)
       {
-         Console.WriteLine($" contenidos en biblioteca de usuario {usuario.Nombre}");
+         Console.WriteLine($"-> contenidos en biblioteca de usuario {usuario.Nombre}");
          foreach (var contenido in usuario.Biblioteca.ObtenerFavoritos())
-            Console.WriteLine($" - {contenido}");
+            Console.WriteLine($"\t - {contenido}");
+         Console.WriteLine($"\t Duracion: {usuario.Biblioteca.Duracion} segundos");
          Console.WriteLine();
       }
 

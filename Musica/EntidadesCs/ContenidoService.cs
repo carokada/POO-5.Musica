@@ -28,7 +28,7 @@ namespace EntidadesCs
          {
             foreach (var contenido in contenidosService)
             {
-               if (contenido.Nombre == nombre) // asi o contenido.Nombre.Contains(nombre)
+               if (contenido.Nombre == nombre) // si fuera contenido.Nombre.Contains(nombre) deberia devolver una lista
                {
                   return contenido;
                }

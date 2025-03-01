@@ -17,7 +17,7 @@ namespace EntidadesCs
          canciones = new List<Cancion>();
          albums = new List<Album>();
 
-         ContenidoService.AgregarContenido(this);
+         ContenidoService.AgregarContenido(this); // agrega a la clase utilitaria
       }
 
       public void AgregarAlbum(Album album)
@@ -48,6 +48,15 @@ namespace EntidadesCs
          return canciones;
       }
 
+      internal void QuitarCancion(Cancion cancion)
+      {
+         if (cancion == null)
+            throw new ArgumentException(" la cancion no puede estar vacia.");
+         if (!canciones.Contains(cancion))
+            throw new ArgumentException($" la cancion {cancion} no ha sido agregada al interprete.");
+         canciones.Remove(cancion);
+      }
+
       public int CalcularDuracionInterprete()
       {
          int duracionInterprete = 0;
@@ -58,7 +67,7 @@ namespace EntidadesCs
 
       public override string ToString()
       {
-         return $" interprete: {Nombre}";
+         return $" interprete: {Nombre} ({Duracion} segundos)";
       }
    }
 }

@@ -8,14 +8,14 @@ namespace EntidadesCs
    {
       private string nombre;
       public string Email { get; set; }
-      public Biblioteca Biblioteca { get; set; } // se crea con el usuario o se ingresa por demo ??
+      public Biblioteca Biblioteca { get; set; }
 
       public Usuario(string nombre, string email)
       {
          Nombre = nombre;
          Email = email;
 
-         //Biblioteca = new Biblioteca(); // se crea en demo ??
+         Biblioteca = new Biblioteca();
       }
 
       public string Nombre
